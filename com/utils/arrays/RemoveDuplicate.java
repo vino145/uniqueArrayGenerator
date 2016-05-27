@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -42,6 +43,7 @@ public class RemoveDuplicate {
 					arraySize--;
 					reverseindex--;
 				}
+
 			}
 		}
 		// Initialize array size after duplicates are removed
@@ -67,21 +69,27 @@ public class RemoveDuplicate {
 		LOGGER.info("Source Array: " + Arrays.toString(duplicatesArray));
 		Set<Integer> uniqueSet = Collections.synchronizedSet(new LinkedHashSet<Integer>());
 		int index = 0;
-		for (int value : duplicatesArray) {
-			// LinkedHashSet maintains the insertion order
-			uniqueSet.add(value);
+		int[] uniqueList = new int[0];
+		try {
+			for (int value : duplicatesArray) {
+				// LinkedHashSet maintains the insertion order
+				uniqueSet.add(value);
+			}
+
+			// Initialize array size after duplicates are removed
+			uniqueList = new int[uniqueSet.size()];
+			// Must be in the synchronized block
+			synchronized (uniqueSet) {
+				Iterator iterator = uniqueSet.iterator();
+				while (iterator.hasNext())
+					uniqueList[index++] = (int) iterator.next();
+			}
+			LOGGER.info("Unique Array: " + Arrays.toString(uniqueList));
+			testPerformance();
+		} catch (Exception exception) {
+			LOGGER.log(Level.SEVERE, "Exception occured while processing Array " + exception);
 		}
-		
-		// Initialize array size after duplicates are removed
-		int[] uniqueList = new int[uniqueSet.size()];
-		// Must be in the synchronized block
-		synchronized (uniqueSet) {
-			Iterator iterator = uniqueSet.iterator();
-			while (iterator.hasNext())
-				uniqueList[index++] = (int) iterator.next();
-		}
-		LOGGER.info("Unique Array: " + Arrays.toString(uniqueList));
-		testPerformance();
+
 		return uniqueList;
 	}
 
@@ -99,23 +107,28 @@ public class RemoveDuplicate {
 		LOGGER.info("Source Array: " + Arrays.toString(duplicatesArray));
 		Set<Integer> uniqueSet = Collections.synchronizedSet(new TreeSet<Integer>());
 		int index = 0;
-		for (int value : duplicatesArray) {
-			// Treeset sorts the input in ascending order
-			uniqueSet.add(value);
+		int[] uniqueList = new int[0];
+		try {
+			for (int value : duplicatesArray) {
+				// Treeset sorts the input in ascending order
+				uniqueSet.add(value);
+			}
+
+			// Initialize array size after duplicates are removed
+			uniqueList = new int[uniqueSet.size()];
+			// Reinitialize index to zero
+			index = 0;
+			// Must be in the synchronized block
+			synchronized (uniqueSet) {
+				Iterator iterator = uniqueSet.iterator();
+				while (iterator.hasNext())
+					uniqueList[index++] = (int) iterator.next();
+			}
+			LOGGER.info("Unique Array: " + Arrays.toString(uniqueList));
+			testPerformance();
+		} catch (Exception exception) {
+			LOGGER.log(Level.SEVERE, "Exception occured while processing Array " + exception);
 		}
-		
-		// Initialize array size after duplicates are removed
-		int[] uniqueList = new int[uniqueSet.size()];
-		// Reinitialize index to zero
-		index = 0;
-		// Must be in the synchronized block
-		synchronized (uniqueSet) {
-			Iterator iterator = uniqueSet.iterator();
-			while (iterator.hasNext())
-				uniqueList[index++] = (int) iterator.next();
-		}
-		LOGGER.info("Unique Array: " + Arrays.toString(uniqueList));
-		testPerformance();
 		return uniqueList;
 	}
 
