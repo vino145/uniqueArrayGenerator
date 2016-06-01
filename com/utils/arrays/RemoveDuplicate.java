@@ -24,9 +24,9 @@ public class RemoveDuplicate {
 	/**
 	 * This method will remove duplicates the traditional way by iterating
 	 * through array and updating new array.Does not use Java collections and is
-	 * comparatively slower than other methods 
-	 * Advantage - Simple and Effective POJO to identify duplicates in a array. 
-	 * Disadvantage - Multiple iterations accessing the same array, does not maintain any order
+	 * comparatively slower than other methods Advantage - Simple and Effective
+	 * POJO to identify duplicates in a array. Disadvantage - Multiple
+	 * iterations accessing the same array, does not maintain any order
 	 * 
 	 * @param duplicatesArray
 	 * @return uniqueArray
@@ -57,10 +57,10 @@ public class RemoveDuplicate {
 	/**
 	 * This method will remove duplicates using JAVA collections and using
 	 * LinkedHashSet will ensure that insertion order is maintained. Done using
-	 * JAVA collections LinkedHashSet maintains insertion order. 
-	 * Advantage - LinkedHashSet maintains the insertion order. Foreach loop prevents
-	 * creation of new variables. 
-	 * Disadvantage - type casting of object to int. 
+	 * JAVA collections LinkedHashSet maintains insertion order. Advantage -
+	 * LinkedHashSet maintains the insertion order. Foreach loop prevents
+	 * creation of new variables. Disadvantage - type casting of object to int.
+	 * 
 	 * @param duplicatesArray
 	 * @return uniqueArray
 	 */
@@ -98,24 +98,26 @@ public class RemoveDuplicate {
 	 * Advantage - Java collection treeset used. Sorts array in ascending order.
 	 * Disadvantage - Time consuming as elements are sorted using java
 	 * collection inbuilt feature.
+	 * 
 	 * @param duplicatesArray
 	 * @return unique sorted array
 	 */
 	public int[] removeNSortDuplicatesUsingCollections(int[] duplicatesArray) {
-		LOGGER.info("\nJAVA collections unique list and maintain insertion order\n");
+		LOGGER.info("\nUnique and sorted list JAVA Collections\n");
 		LOGGER.info("Source Array: " + Arrays.toString(duplicatesArray));
-		Set<Integer> uniqueSet = Collections.synchronizedSet(new LinkedHashSet<Integer>());
+		Set<Integer> uniqueSet = Collections.synchronizedSet(new TreeSet<Integer>());
 		int index = 0;
 		int[] uniqueList = new int[0];
 		try {
 			for (int value : duplicatesArray) {
-				// LinkedHashSet maintains the insertion order
+				// Treeset sorts the input in ascending order
 				uniqueSet.add(value);
 			}
 
 			// Initialize array size after duplicates are removed
 			uniqueList = new int[uniqueSet.size()];
-
+			// Reinitialize index to zero
+			index = 0;
 			Iterator iterator = uniqueSet.iterator();
 			while (iterator.hasNext())
 				uniqueList[index++] = (int) iterator.next();
@@ -125,7 +127,6 @@ public class RemoveDuplicate {
 		} catch (Exception exception) {
 			LOGGER.log(Level.SEVERE, "Exception occured while processing Array " + exception);
 		}
-
 		return uniqueList;
 	}
 
