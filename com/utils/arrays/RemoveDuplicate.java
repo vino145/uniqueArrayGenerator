@@ -78,12 +78,11 @@ public class RemoveDuplicate {
 
 			// Initialize array size after duplicates are removed
 			uniqueList = new int[uniqueSet.size()];
-			// Must be in the synchronized block
-			synchronized (uniqueSet) {
-				Iterator iterator = uniqueSet.iterator();
-				while (iterator.hasNext())
-					uniqueList[index++] = (int) iterator.next();
-			}
+
+			Iterator iterator = uniqueSet.iterator();
+			while (iterator.hasNext())
+				uniqueList[index++] = (int) iterator.next();
+
 			LOGGER.info("Unique Array: " + Arrays.toString(uniqueList));
 			testPerformance();
 		} catch (Exception exception) {
@@ -103,32 +102,30 @@ public class RemoveDuplicate {
 	 * @return unique sorted array
 	 */
 	public int[] removeNSortDuplicatesUsingCollections(int[] duplicatesArray) {
-		LOGGER.info("\nUnique and sorted list JAVA Collections\n");
+		LOGGER.info("\nJAVA collections unique list and maintain insertion order\n");
 		LOGGER.info("Source Array: " + Arrays.toString(duplicatesArray));
-		Set<Integer> uniqueSet = Collections.synchronizedSet(new TreeSet<Integer>());
+		Set<Integer> uniqueSet = Collections.synchronizedSet(new LinkedHashSet<Integer>());
 		int index = 0;
 		int[] uniqueList = new int[0];
 		try {
 			for (int value : duplicatesArray) {
-				// Treeset sorts the input in ascending order
+				// LinkedHashSet maintains the insertion order
 				uniqueSet.add(value);
 			}
 
 			// Initialize array size after duplicates are removed
 			uniqueList = new int[uniqueSet.size()];
-			// Reinitialize index to zero
-			index = 0;
-			// Must be in the synchronized block
-			synchronized (uniqueSet) {
-				Iterator iterator = uniqueSet.iterator();
-				while (iterator.hasNext())
-					uniqueList[index++] = (int) iterator.next();
-			}
+
+			Iterator iterator = uniqueSet.iterator();
+			while (iterator.hasNext())
+				uniqueList[index++] = (int) iterator.next();
+
 			LOGGER.info("Unique Array: " + Arrays.toString(uniqueList));
 			testPerformance();
 		} catch (Exception exception) {
 			LOGGER.log(Level.SEVERE, "Exception occured while processing Array " + exception);
 		}
+
 		return uniqueList;
 	}
 
